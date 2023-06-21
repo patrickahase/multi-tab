@@ -6,15 +6,16 @@ modal.showModal();
 let startButton = document.getElementById("startButton");
 startButton.addEventListener("click", () => {
   // from audioContext.js - starts the audio system
-  if(inputFreq) { audioInit(inputFreq); }
-  else { audioInit(); }
+  audioInit();
   modal.close();
 });
 
-function audioInit(freq){
+function audioInit(){
   audioCtx = new AudioContext();
-  if(!freq){ freq = 50.0 }
-  console.log(freq)
+  let freq;
+  if(inputFreq){ freq = inputFreq }
+  else {freq = 50.0}
+  //console.log(freq)
 
   let osc1 = new OscillatorNode(audioCtx, {
     type: 'sawtooth',

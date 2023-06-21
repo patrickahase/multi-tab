@@ -10,17 +10,19 @@ const nrvSys = {
         const registration = await navigator.serviceWorker.register("serviceWorker.js", {
           scope: "/",
         });
-        if (registration.installing) {
-          //console.log("Service worker installing");
-        } else if (registration.waiting) {
-          //console.log("Service worker installed");
-        } else if (registration.active) {
-          //console.log("Service worker active");
-        }
+        if (registration.installing ||
+            registration.waiting ||
+            registration.active)
+          {
+            navigator.serviceWorker.controller.postMessage("init");
+          }
         // upon receiving a message
         navigator.serviceWorker.addEventListener('message', e => {
           console.log(e.data);
-          inputFreq = e.data;
+          if(e.data.freq) {
+            inputFreq = e.data.freq;
+          }
+          //
         });
       } catch (error) {
         console.error(`Registration failed with ${error}`);
